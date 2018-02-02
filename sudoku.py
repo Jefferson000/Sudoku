@@ -128,16 +128,38 @@ def sort(array):
     array_sorted = merge(a, b)
     return array_sorted
 
+"""
+1.1 When function is called, if there are not empty cells in the incoming sudoku,
+validate it and return the sudoku matrix if it's ok or False if it's not ok.
+
+1.2 If there are empty cells, but the first one (as they are ordered) does not
+have any possible value, return false as it is considered that if an empty
+cell does not have a possible value, there must be incorrect values in the 
+matrix
+
+2.0 Iterative approach (for simple sudokus). If the sudoku is solved, return
+the complete matrix. If it is not solved, recursive approach will be executed.
+
+3.0 Recursive approach (for harder sudokus, if iterative approach did not work)
+"""
+
 def solvesudoku(sudoku):
-    #printsudoku(sudoku)
-    emptycells = getallemptycells(sudoku)    
+    emptycells = getallemptycells(sudoku)
+    ###########################################################################
+    #1.1
     if len(emptycells) == 0:
-        return validatesudoku(sudoku)
-    if len(emptycells[0][2]) == 0:
+        if validatesudoku(sudoku):
+            return sudoku
+        else:
+            return False
+    ###########################################################################
+    #1.2
+    elif len(emptycells[0][2]) == 0:
         return False
+    ###########################################################################
+    #2.0 - Iterative approach
     emptycellfilled = (len(emptycells[0][2]) == 1)
     while emptycellfilled:
-        
         for emptycell in emptycells:
             if len(emptycell[2]) == 1:
                 row = emptycell[0]
@@ -147,7 +169,6 @@ def solvesudoku(sudoku):
             else:
                 break
         emptycells = getallemptycells(sudoku)
-        #print(">>",emptycells)
         if len(emptycells) > 0:
             emptycellfilled = len(emptycells[0][2]) == 1
         else:
@@ -155,23 +176,19 @@ def solvesudoku(sudoku):
     if len(emptycells) == 0:
         return sudoku
     ###########################################################################
+    #3.0 - Recursive approach
     i = 0
-    ops = 0
-    print(emptycells)
-    print(">")
-    printsudoku(sudoku)
-    #while i in range(len(emptycells)):
-    while i in range(1):
+    while i in range(len(emptycells)):
         z = 0
         while z in range(len(emptycells[i][2])):
-            print(">>>>>>>>>>>>>>>>>>>>>>>>>>",len(emptycells[i][2]))
             newsudoku = list(sudoku)
             newsudoku[emptycells[i][0]][emptycells[i][1]] = emptycells[i][2][z]
-            print(">>")
-            printsudoku(newsudoku)
+            testsudoku = solvesudoku(newsudoku)
+            if testsudoku != None and testsudoku != False and len(testsudoku) !=0:
+                print("todo ok")
             z += 1
         i += 1
-    print(ops)
+    return False
 
 def printsudoku(sudoku):
     for i in sudoku:
