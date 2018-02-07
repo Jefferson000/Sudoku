@@ -129,8 +129,9 @@ def sort(array):
     return array_sorted
 
 """
-1.1 When function is called, if there are not empty cells in the incoming sudoku,
-validate it and return the sudoku matrix if it's ok or False if it's not ok.
+1.1 When function is called, if there are not empty cells in the incoming
+sudoku, validate it and return the sudoku matrix if it's ok or False if it's
+not ok.
 
 1.2 If there are empty cells, but the first one (as they are ordered) does not
 have any possible value, return false as it is considered that if an empty
@@ -181,11 +182,15 @@ def solvesudoku(sudoku):
     while i in range(len(emptycells)):
         z = 0
         while z in range(len(emptycells[i][2])):
+            #print("sarasa")
             newsudoku = list(sudoku)
             newsudoku[emptycells[i][0]][emptycells[i][1]] = emptycells[i][2][z]
             testsudoku = solvesudoku(newsudoku)
-            if testsudoku != None and testsudoku != False and len(testsudoku) !=0:
-                print("todo ok")
+            if testsudoku != False:
+                print(testsudoku)
+            if testsudoku != False and len(testsudoku) !=0:
+                #print("todo ok")
+                return testsudoku
             z += 1
         i += 1
     return False
@@ -197,7 +202,7 @@ def printsudoku(sudoku):
 
 ###############################################################################
 
-""" Difícil """
+""" Difícil 
 sudoku = [[-1,8,-1,6,9,3,-1,-1,-1],
           [-1,2,-1,5,-1,-1,-1,-1,4],
           [-1,7,-1,-1,8,4,3,5,-1],
@@ -207,6 +212,7 @@ sudoku = [[-1,8,-1,6,9,3,-1,-1,-1],
           [-1,-1,3,-1,-1,-1,-1,-1,7],
           [-1,4,-1,-1,-1,2,-1,-1,6],
           [-1,5,2,7,6,-1,-1,-1,-1]]
+"""
 """
 sudoku =[[-1,-1,-1,6,3,7,-1,-1,-1],
          [-1,2,9,-1,1,-1,-1,-1,-1],
@@ -218,7 +224,20 @@ sudoku =[[-1,-1,-1,6,3,7,-1,-1,-1],
          [-1,-1,-1,-1,8,2,6,-1,4],
          [2,9,6,7,4,-1,-1,-1,-1]]
 """
+
+sudoku =[[-1,5,3,-1,-1,9,-1,7,6],
+         [-1,-1,-1,1,-1,-1,8,-1,-1],
+         [-1,-1,-1,-1,-1,-1,5,-1,-1],
+         [-1,3,6,2,-1,-1,-1,-1,8],
+         [-1,-1,4,3,8,7,-1,5,2],
+         [7,8,-1,-1,6,-1,-1,-1,3],
+         [3,2,7,-1,-1,-1,-1,-1,-1],
+         [4,6,-1,5,-1,-1,-1,2,-1],
+         [-1,-1,-1,7,-1,4,-1,-1,-1]]
 #print(validatesudoku(sudoku))
-print(solvesudoku(sudoku))
+solvedsudoku = solvesudoku(sudoku)
+printsudoku(solvedsudoku)
+print(">>",validatesudoku(solvedsudoku))
+
 #printsudoku(sudoku)
 #print(validatesudoku(sudoku))
